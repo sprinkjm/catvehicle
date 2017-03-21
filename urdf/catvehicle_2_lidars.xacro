@@ -1,5 +1,4 @@
 <?xml version="1.0" ?>
-
 <!--
 
 Author: Jonathan Sprinkle, Sam Taylor, Alex Warren
@@ -38,7 +37,7 @@ roslaunch catvehicle catvehicle_skidpan.launch
 http://www.car-engineer.com/vehicle-inertia-calculation-tool/
 -->
 
-<robot name="$(arg roboname)" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="catvehicle">
   
   <xacro:property name="PI" value="3.1415926835897931"/>
 <!--  <xacro:property name="base_height" value="0"/> -->

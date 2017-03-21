@@ -33,15 +33,13 @@ roslaunch catvehicle catvehicle_empty.launch
 -->
 
 <launch>
+
 <arg name="robot_name"/>
 <arg name="init_pose"/>
 <arg name="config_file"/>
 
-<rosparam param="/use_sim_time">true</rosparam>
-
 <node name="urdf_spawner$(arg robot_name)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 args="$(arg init_pose) -urdf -model $(arg robot_name) -param robot_description"/>
-
 
 <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find catvehicle)/config/$(arg config_file)" command="load" ns="/$(arg robot_name)"/>
@@ -55,7 +53,6 @@ output="screen" ns="/$(arg robot_name)" args="joint1_velocity_controller joint2_
 <node name="robot_state_publisher$(arg robot_name)" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
     <remap from="/joint_states" to="/$(arg robot_name)/joint_states" />
 </node>
-
 
 <!-- need for publishing joint states that are not controlled -->
 <node name="joint_state_publisher$(arg robot_name)" pkg="joint_state_publisher" type="joint_state_publisher" respawn="false" output="screen">
@@ -95,6 +92,5 @@ output="screen" ns="/$(arg robot_name)" args="joint1_velocity_controller joint2_
 <!-- publish the path information of this vehicle -->
 <node name="odom2path$(arg robot_name)" pkg="catvehicle" type="odom2path.py" respawn="true" output="screen" args="-n /$(arg robot_name)">
 </node>
-
 
 </launch>

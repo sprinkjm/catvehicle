@@ -36,23 +36,26 @@ roslaunch catvehicle catvehicle_skidpan.launch
 <launch>
 
 	  <arg name="paused" default="false"/>
-	  <arg name="use_sim_time" default="true"/>
 	  <arg name="gui" default="false"/>
 	  <arg name="headless" default="false"/>
 	  <arg name="debug" default="false"/>
+
+          <arg name="use_sim_time" default="true"/>
           <param name="use_sim_time" value="true"/>
+          <rosparam param="/use_sim_time">true</rosparam>
 
       <!-- change these defaults here, or as a cmd line arg, in order to turn off   -->
       <!--   sensors that you aren't using, thus freeing up computational resources -->
       <!--   and reducing storage space for your bagfiles -->
       <arg name="front_laser_points" default="true"/>
       <arg name="front_top_lidar_points" default="true"/>
+
       <arg name="velodyne_points" default="false"/>
       <arg name="camera_right" default="false"/>
       <arg name="camera_left" default="false"/>
 
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find catvehicle)/worlds/skidpan.world"/>
+  <include file="$(find overtaking_maneuver)/launch/overtaking_szenario.launch">
+    <arg name="world_name" value="$(find overtaking_maneuver)/worlds/overtaking_szenario.world"/>
     <arg name="debug" value="$(arg debug)" />
     <arg name="gui" value="$(arg gui)" />
     <arg name="paused" value="$(arg paused)"/>
@@ -63,10 +66,14 @@ roslaunch catvehicle catvehicle_skidpan.launch
   <group ns="catvehicle">
     <param name="robot_description"
            command="$(find xacro)/xacro.py '$(find catvehicle)/urdf/catvehicle_2_lidars.xacro' roboname:='catvehicle' front_laser_points:='$(arg front_laser_points)' front_top_lidar_points:='$(arg front_top_lidar_points)' velodyne_points:='$(arg velodyne_points)' camera_right:='$(arg camera_right)' camera_left:='$(arg camera_left)'" />
-<include file="$(find catvehicle)/launch/catvehicle.launch">
+  <include file="$(find catvehicle)/launch/catvehicle.launch">
     <arg name="robot_name" value="catvehicle"/>
     <arg name="init_pose" value="-x 1 -y 1 -z 0"/>
     <arg name="config_file" value="catvehicle_control.yaml"/>
+  </include>
+
+  <include file="$(find catvehicle)/launch/tfs_2_lidars.launch">
+    <arg name="robot_name" value="catvehicle"/>
   </include>
 
 <!-- Uncomment this to get immediate motion from the car
