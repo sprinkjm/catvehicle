@@ -37,7 +37,7 @@ roslaunch catvehicle catvehicle_empty.launch
 <arg name="robot_name"/>
 <arg name="init_pose"/>
 <arg name="config_file"/>
-<arg name="obstaclestopper_on"/>
+<arg name="obstaclestopper_on" default="true"/>
 
 <node name="urdf_spawner$(arg robot_name)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 args="$(arg init_pose) -urdf -model $(arg robot_name) -param robot_description"/>

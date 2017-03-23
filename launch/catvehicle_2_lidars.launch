@@ -22,15 +22,6 @@ AND FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER
 IS ON AN "AS IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATION
 TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-Summary: 
-========
-
-This launch file loads the worlds and models for the catvehicle with the name catvehicle in stationary state. 
-
-How to execute this file?
-========================
-
-roslaunch catvehicle catvehicle_skidpan.launch
 -->
 
 <launch>
@@ -41,7 +32,6 @@ roslaunch catvehicle catvehicle_skidpan.launch
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
   <arg name="rviz_file" default="/home/ahyou/catvehicle_ws/src/overtaking_maneuver/rviz/overtaking.rviz"/>
-
   <arg name="use_sim_time" default="true"/>
   <param name="use_sim_time" value="true"/>
   <rosparam param="/use_sim_time">true</rosparam>
