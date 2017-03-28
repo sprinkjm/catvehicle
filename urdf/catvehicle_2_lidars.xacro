@@ -1,5 +1,4 @@
 <?xml version="1.0" ?>
-
 <!--
 
 Author: Jonathan Sprinkle, Sam Taylor, Alex Warren
@@ -38,7 +37,7 @@ roslaunch catvehicle catvehicle_skidpan.launch
 http://www.car-engineer.com/vehicle-inertia-calculation-tool/
 -->
 
-<robot name="$(arg roboname)" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="catvehicle">
   
   <xacro:property name="PI" value="3.1415926835897931"/>
 <!--  <xacro:property name="base_height" value="0"/> -->
@@ -69,6 +68,7 @@ http://www.car-engineer.com/vehicle-inertia-calculation-tool/
   <xacro:property name="str_angle" value="0.6"/>
   <xacro:property name="car_width" value="1.301"/>
   <xacro:property name="front_laser_points" value="$(arg front_laser_points)"/>
+  <xacro:property name="front_top_lidar_points" value="$(arg front_top_lidar_points)"/>
   <xacro:property name="velodyne_points" value="$(arg velodyne_points)"/>
   <xacro:property name="camera_right" value="$(arg camera_right)"/>
   <xacro:property name="camera_left" value="$(arg camera_left)"/>
@@ -82,13 +82,18 @@ http://www.car-engineer.com/vehicle-inertia-calculation-tool/
         <origin xyz="0 0 0" rpy="0 0 ${-PI/2}"/>
   </xacro:property>
   
-	<xacro:include filename="$(find catvehicle)/urdf/catvehicle.gazebo"/>
+    <xacro:include filename="$(find catvehicle)/urdf/catvehicle.gazebo"/>
+
     <xacro:if value="${front_laser_points}">
     	<xacro:include filename="$(find catvehicle)/urdf/catvehicle_front_laser_points.gazebo"/>
+    </xacro:if>
+    <xacro:if value="${front_top_lidar_points}">
+    	<xacro:include filename="$(find catvehicle)/urdf/catvehicle_front_top_lidar_points.gazebo"/>
     </xacro:if>
     <xacro:if value="${velodyne_points}">
     	<xacro:include filename="$(find catvehicle)/urdf/catvehicle_velodyne_points.gazebo"/>
     </xacro:if>
+
     <xacro:if value="${camera_right}">
     	<xacro:include filename="$(find catvehicle)/urdf/catvehicle_right_camera.gazebo"/>
     </xacro:if>
@@ -455,7 +460,7 @@ http://www.car-engineer.com/vehicle-inertia-calculation-tool/
 </link>
 
 
-<joint name="camera_joint" type="fixed">
+<!--joint name="camera_joint" type="fixed">
 <origin xyz="0 0 ${0.725 + sensor_box/2 + 1.25}" rpy="0 0 0"/>
 	<axis xyz="0 0 1"/>
 	<parent link="base_link"/>
@@ -483,7 +488,7 @@ http://www.car-engineer.com/vehicle-inertia-calculation-tool/
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
     </inertial>
-</link>
+</link-->
 
 
 
@@ -491,7 +496,7 @@ http://www.car-engineer.com/vehicle-inertia-calculation-tool/
 
 
 
-<joint name="velodyne_joint" type="fixed">
+<!--joint name="velodyne_joint" type="fixed">
 	<origin xyz="0 0 ${sensor_box/2 + 0.01}" rpy="0 0 0"/>
 	<axis xyz="0 0 1"/>
 	<parent link="camera_link"/>
@@ -518,7 +523,7 @@ http://www.car-engineer.com/vehicle-inertia-calculation-tool/
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
     </inertial>
-</link>
+</link-->
 
 <joint name="front_laser_joint" type="fixed">
 	<origin xyz="${car_to_bumper} 0 ${front_bumper_height + sensor_box/2 + 0.01}" rpy="0 0 0"/>
@@ -529,6 +534,37 @@ http://www.car-engineer.com/vehicle-inertia-calculation-tool/
 
 <link name="front_laser_link">
      <parent link="front_laser_joint"/>
+        <collision>
+          <origin xyz="0 0 0" rpy="0 0.0 0"/>
+          <geometry>
+           <box size="${sensor_box} ${sensor_box} ${sensor_box}"/>
+          </geometry>
+        </collision>
+
+        <visual>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+          <geometry>
+           <box size="${sensor_box} ${sensor_box} ${sensor_box}"/>
+          </geometry>
+        </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+</link>
+
+<joint name="front_top_lidar_joint" type="fixed">
+	<!--origin xyz="${car_to_bumper} 0 ${front_bumper_height + sensor_box/2 + 0.01}" rpy="0 0 0"/-->
+        <origin xyz="0.5 0 ${0.725 + sensor_box/2 + 1.25}" rpy="0 0.261799 0"/>
+	<axis xyz="0 0 1"/>
+	<parent link="base_link"/>
+	<child link="front_top_lidar"/>
+</joint>
+
+<link name="front_top_lidar">
+     <parent link="front_top_lidar_joint"/>
         <collision>
           <origin xyz="0 0 0" rpy="0 0.0 0"/>
           <geometry>

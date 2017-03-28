@@ -35,13 +35,13 @@ Sensors are included separately, based on the arguments passed to the xacro incl
 <robot>
 
 
-<gazebo reference="front_laser_link">
+<gazebo reference="front_top_lidar">
         <mu1>0.6</mu1>
         <mu2>0.5</mu2>
 </gazebo>
 
-<gazebo reference="front_laser_link">
-        <sensor type="ray" name="sick_lms291_front">
+<gazebo reference="front_top_lidar">
+        <sensor type="ray" name="sick_lms291_top">
               <pose>0 0 0 0 0 0</pose>
                    <visualize>true</visualize>
                     <update_rate>50</update_rate>
@@ -68,10 +68,10 @@ Sensors are included separately, based on the arguments passed to the xacro incl
                            </noise>
 -->
                       </ray>
-			   <plugin name="sick_lms291_controller_front" filename="libgazebo_ros_laser.so">
+			   <plugin name="sick_lms291_controller_top" filename="libgazebo_ros_laser.so">
 			      <robotNamespace>/$(arg roboname)</robotNamespace>
-			      <topicName>/$(arg roboname)/front_laser_points</topicName>
-			      <frameName>front_laser_link</frameName>
+			      <topicName>/$(arg roboname)/front_top_scan</topicName>
+			      <frameName>front_top_lidar</frameName>
 			      <gaussianNoise>0.02</gaussianNoise>
                  </plugin>
       </sensor>

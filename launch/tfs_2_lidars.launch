@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+<arg name="robot_name" default="catvehicle"/>
+
+<node pkg="tf" type="static_transform_publisher" name="baselink2front_laser_link_tf_$(arg robot_name)" 
+    args="2.4 0 0.8589 0 0 0 /$(arg robot_name)/base_link /$(arg robot_name)/front_laser_link 10"/>
+
+<node pkg="tf" type="static_transform_publisher" name="baselink2front_top_scan_link_tf_$(arg robot_name)" 
+    args="0.5 0 2.1 0 0.261799 0 /$(arg robot_name)/base_link /$(arg robot_name)/front_top_lidar 10"/>
+
+</launch>
