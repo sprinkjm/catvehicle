@@ -26,25 +26,23 @@ TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 <launch>
 
-  <arg name="robot_name" default="catvehicle"/>
+  <arg name="robot_name_1" default="catvehicle"/>
+  <arg name="robot_name_2" default="catvehicle_static"/>
+
   <arg name="paused" default="false"/>
   <arg name="gui" default="false"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
   <arg name="rviz_file" default="/home/ahyou/catvehicle_ws/src/overtaking_maneuver/rviz/overtaking.rviz"/>
-  <arg name="use_sim_time" default="true"/>
-  <param name="use_sim_time" value="true"/>
-  <rosparam param="/use_sim_time">true</rosparam>
-
-  <!-- change these defaults here, or as a cmd line arg, in order to turn off -->
-  <!-- sensors that you aren't using, thus freeing up computational resources -->
-  <!-- and reducing storage space for your bagfiles -->
   <arg name="front_laser_points" default="true"/>
   <arg name="front_top_lidar_points" default="true"/>
-
   <arg name="velodyne_points" default="false"/>
   <arg name="camera_right" default="false"/>
   <arg name="camera_left" default="false"/>
+
+  <arg name="use_sim_time" default="true"/>
+  <param name="use_sim_time" value="true"/>
+  <rosparam param="/use_sim_time">true</rosparam>
 
   <include file="$(find overtaking_maneuver)/launch/overtaking_szenario.launch">
     <arg name="world_name" value="$(find overtaking_maneuver)/worlds/overtaking_szenario.world"/>
@@ -55,25 +53,45 @@ TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
     <arg name="headless" value="$(arg headless)"/>
   </include>
 
-  <group ns="$(arg robot_name)">
+  <group ns="$(arg robot_name_1)">
 
     <param name="robot_description"
-           command="$(find xacro)/xacro.py '$(find catvehicle)/urdf/catvehicle_2_lidars.xacro' roboname:='catvehicle' front_laser_points:='$(arg front_laser_points)' front_top_lidar_points:='$(arg front_top_lidar_points)' velodyne_points:='$(arg velodyne_points)' camera_right:='$(arg camera_right)' camera_left:='$(arg camera_left)'" />
+           command="$(find xacro)/xacro.py '$(find catvehicle)/urdf/catvehicle_2_lidars.xacro' roboname:='$(arg robot_name_1)' front_laser_points:='$(arg front_laser_points)' front_top_lidar_points:='$(arg front_top_lidar_points)' velodyne_points:='$(arg velodyne_points)' camera_right:='$(arg camera_right)' camera_left:='$(arg camera_left)'" />
 
     <include file="$(find catvehicle)/launch/catvehicle.launch">
-      <arg name="robot_name" value="$(arg robot_name)"/>
-      <arg name="init_pose" value="-x 1 -y 1 -z 0"/>
+      <arg name="robot_name" value="$(arg robot_name_1)"/>
+      <arg name="init_pose" value="-x -20 -y 1 -z 0"/>
       <arg name="config_file" value="catvehicle_control.yaml"/>
       <arg name="obstaclestopper_on" value="false"/>
     </include>
 
     <include file="$(find catvehicle)/launch/tfs_2_lidars.launch">
-      <arg name="robot_name" value="$(arg robot_name)"/>
+      <arg name="robot_name" value="$(arg robot_name_1)"/>
     </include>
+
+    <node pkg="rostopic" type="rostopic" name="inital_pose_pub" args="pub -1 /$(arg robot_name_1)/initialpose geometry_msgs/PoseWithCovarianceStamped '{header: {stamp: now, frame_id: $(arg robot_name_1)/map}, pose: {pose: {orientation: {w: 0.989527022142, x: 0.0, y: 0.0, z: 0.144347748342}, position: {x: 128.679428101, y: 121.831588745, z: 0.0}}}}'" output="screen"/>
 
   </group>
 
-  <node pkg="rostopic" type="rostopic" name="inital_pose_pub" args="pub -1 /$(arg robot_name)/initialpose geometry_msgs/PoseWithCovarianceStamped '{header: {stamp: now, frame_id: $(arg robot_name)/map}, pose: {pose: {orientation: {w: 0.564264976491, x: 0.0, y: 0.0, z: 0.825593747739}, position: {x: 53.82, y: 55.72, z: 0.0}}}}'" output="screen"/>
+  <group ns="$(arg robot_name_2)">
+
+    <param name="robot_description"
+           command="$(find xacro)/xacro.py '$(find catvehicle)/urdf/catvehicle_2_lidars.xacro' roboname:='$(arg robot_name_2)' front_laser_points:='$(arg front_laser_points)' front_top_lidar_points:='$(arg front_top_lidar_points)' velodyne_points:='$(arg velodyne_points)' camera_right:='$(arg camera_right)' camera_left:='$(arg camera_left)'" />
+
+    <include file="$(find catvehicle)/launch/catvehicle.launch">
+      <arg name="robot_name" value="$(arg robot_name_2)"/>
+      <arg name="init_pose" value="-x 10 -y -1 -z 0"/>
+      <arg name="config_file" value="catvehicle_control.yaml"/>
+      <arg name="obstaclestopper_on" value="false"/>
+    </include>
+
+    <include file="$(find catvehicle)/launch/tfs_2_lidars.launch">
+      <arg name="robot_name" value="$(arg robot_name_2)"/>
+    </include>
+
+    <node pkg="rostopic" type="rostopic" name="inital_pose_pub" args="pub -1 /$(arg robot_name_2)/initialpose geometry_msgs/PoseWithCovarianceStamped '{header: {stamp: now, frame_id: $(arg robot_name_2)/map}, pose: {pose: {orientation: {w: 0.992754252206, x: 0.0, y: 0.0, z: 0.120162368184}, position: {x: 158.679428101, y: 127.809555054, z: 0.0}}}}'" output="screen"/>
+
+  </group>
 
   <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_file)"/>
 
