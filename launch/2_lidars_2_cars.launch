@@ -26,14 +26,15 @@ TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 <launch>
 
-  <arg name="robot_name_1" default="catvehicle"/>
+  <!--arg name="robot_name_1" default="catvehicle"/-->
+  <arg name="robot_name_1" default="iMiev"/>
   <arg name="robot_name_2" default="catvehicle_static"/>
 
   <arg name="paused" default="false"/>
   <arg name="gui" default="false"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
-  <arg name="rviz_file" default="$(find overtaking_maneuver)/rviz/overtaking.rviz"/>
+  <arg name="rviz_file" default="$(find overtaking_maneuver)/rviz/overtaking_$(arg robot_name_1).rviz"/>
   <arg name="front_laser_points" default="true"/>
   <arg name="front_top_lidar_points" default="true"/>
   <arg name="velodyne_points" default="false"/>
