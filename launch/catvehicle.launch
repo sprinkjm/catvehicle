@@ -39,8 +39,6 @@ roslaunch catvehicle catvehicle_empty.launch
 <arg name="config_file"/>
 <arg name="obstaclestopper_on" default="true"/>
 
-<param name="tf_prefix" value="$(arg robot_name)"/>
-
 <rosparam param="/use_sim_time">true</rosparam>
 <rosparam file="$(find catvehicle)/config/$(arg config_file)" command="load" ns="/$(arg robot_name)"/>
 
