@@ -65,6 +65,8 @@ TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
     <param name="robot_description"
            command="$(find xacro)/xacro --inorder '$(find catvehicle)/urdf/catvehicle_2_lidars.xacro' roboname:='$(arg robot1_name)' front_laser_points:='$(arg robot1_front_laser_points)' front_top_lidar_points:='$(arg robot1_front_top_lidar_points)' velodyne_points:='$(arg velodyne_points)' camera_right:='$(arg camera_right)' camera_left:='$(arg camera_left)'" />
 
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="$(arg robot1_name)_state_publisher" />
+
     <include file="$(find catvehicle)/launch/catvehicle.launch">
       <arg name="robot_name" value="$(arg robot1_name)"/>
       <arg name="init_pose" value="-x -20 -y 1 -z 0"/>
@@ -79,6 +81,13 @@ TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
     <node pkg="rostopic" type="rostopic" name="inital_pose_pub" args="pub -1 /$(arg robot1_name)/initialpose geometry_msgs/PoseWithCovarianceStamped '{header: {stamp: now, frame_id: $(arg robot1_name)/map}, pose: {pose: {orientation: {w: 0.989527022142, x: 0.0, y: 0.0, z: 0.144347748342}, position: {x: 128.679428101, y: 121.831588745, z: 0.0}}}}'" output="screen"/>
 
     <node pkg="tf" type="static_transform_publisher" name="map_odom_tf_$(arg robot1_name)" args="148.1023254390 126.5747070310 0 0 0 0.1482577580810 0.9889487535610 $(arg robot1_name)/map $(arg robot1_name)/odom 5" if="$(arg robot1_ground_truth)"/>
+
+    <!--node name="fake_localization_$(arg robot1_name)" pkg="fake_localization" type="fake_localization" output="screen">
+      <remap from="base_pose_ground_truth" to="odom" />
+      <param name="global_frame_id" value="$(arg robot1_name)/map" />
+      <param name="odom_frame_id" value="$(arg robot1_name)/odom" />
+      <param name="base_frame_id" value="$(arg robot1_name)/base_link" />
+    </node-->
 
   </group>
 
