@@ -42,13 +42,13 @@ roslaunch catvehicle catvehicle_empty.launch
 <rosparam param="/use_sim_time">true</rosparam>
 <rosparam file="$(find catvehicle)/config/$(arg config_file)" command="load" ns="/$(arg robot_name)"/>
 
-<node name="urdf_spawner$(arg robot_name)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="$(arg init_pose) -urdf -model $(arg robot_name) -param robot_description"/>
+<node name="urdf_spawner_$(arg robot_name)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="$(arg init_pose) -urdf -model $(arg robot_name) -param robot_description"/>
 
 <!-- load the controllers -->
 <node name="controller_spawner$(arg robot_name)" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/$(arg robot_name)" required="true" args="joint1_velocity_controller joint2_velocity_controller front_left_steering_position_controller front_right_steering_position_controller  joint_state_controller"/>
 
 <!-- convert joint states to TF transforms for rviz, etc -->
-<node name="robot_state_publisher$(arg robot_name)" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+<node name="robot_state_publisher_$(arg robot_name)" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
   <remap from="/joint_states" to="/$(arg robot_name)/joint_states" />
 </node>
 

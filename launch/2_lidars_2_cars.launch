@@ -65,7 +65,7 @@ TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
     <param name="robot_description"
            command="$(find xacro)/xacro --inorder '$(find catvehicle)/urdf/catvehicle_2_lidars.xacro' roboname:='$(arg robot1_name)' front_laser_points:='$(arg robot1_front_laser_points)' front_top_lidar_points:='$(arg robot1_front_top_lidar_points)' velodyne_points:='$(arg velodyne_points)' camera_right:='$(arg camera_right)' camera_left:='$(arg camera_left)'" />
 
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="$(arg robot1_name)_state_publisher" />
+    <!--node pkg="robot_state_publisher" type="robot_state_publisher" name="$(arg robot1_name)_state_publisher" /-->
 
     <include file="$(find catvehicle)/launch/catvehicle.launch">
       <arg name="robot_name" value="$(arg robot1_name)"/>
