@@ -1,22 +1,34 @@
 # About
 The catvehicle ROS package houses files that utilize the Gazebo simulator, and additional interfaces to the physical CAT Vehicle Testbed.
 
+### NOTE: This version of the CAT Vehicle is depracted and is limited to work with ROS indigo on Ubuntu 14.04 LTS. Newer release of the CAT Vehicle tested is available on [JMSCSLGroup](https://github.com/jmscslgroup/catvehicle).
+
 # Dependencies
 * ROS
 * obstaclestopper
 
 # Citation
-If you find this work useful please give credits to the authors by citing:
-
-Rahul Bhadani, Jonathan Sprinkle, Matthew Bunting. "The CAT Vehicle Testbed: A Simulator with Hardware in the Loop for Autonomous Vehicle Applications". Proceedings 2nd International Workshop on Safe Control of Autonomous Vehicles (SCAV 2018), Porto, Portugal, 10th April 2018, Electronic Proceedings in Theoretical Computer Science 269, pp. 32–47. Download:  http://dx.doi.org/10.4204/EPTCS.269.4.
+If you find this work useful please give credits to the authors and developers by citing:
+```json
+Rahul Bhadani, Jonathan Sprinkle, Matthew Bunting. "The CAT Vehicle Testbed: 
+A Simulator with Hardware in the Loop for Autonomous Vehicle Applications". 
+Proceedings 2nd International Workshop on Safe Control of Autonomous Vehicles (SCAV 2018),
+Porto, Portugal, 10th April 2018, Electronic Proceedings in Theoretical Computer Science 269,
+pp. 32–47.  Download:  http://dx.doi.org/10.4204/EPTCS.269.4.
+```
 
 bibtex:
+```
 @article{bhadani2018cat,
-  title={The CAT Vehicle Testbed: A Simulator with Hardware in the Loop for Autonomous Vehicle Applications},
-  author={Bhadani, Rahul Kumar and Sprinkle, Jonathan and Bunting, Matthew},
-  journal={Proceedings 2nd International Workshop on Safe Control of Autonomous Vehicles (SCAV 2018), Porto, Portugal, 10th April 2018, Electronic Proceedings in Theoretical Computer Science 269, pp. 32–47},
-  year={2018}
+  title={{The CAT Vehicle Testbed: A Simulator with Hardware 
+  in the Loop for Autonomous Vehicle Applications}},
+  author={Bhadani, Rahul and Sprinkle, Jonathan and Bunting, Matthew},
+  journal={{Proceedings of 2nd International Workshop on Safe Control of Autonomous Vehicles
+  (SCAV 2018), Porto, Portugal, 10th April 2018, Electronic Proceedings
+  in Theoretical Computer Science 269, pp. 32–47}},
+year={2018}
 }
+```
 
 
 # catkin workspace and build
